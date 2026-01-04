@@ -1,0 +1,18 @@
+package com.tcs.spring_core_demo;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class EmployeConfig {
+	
+	@Bean
+	public Employe employee() {
+		Employe emp=new Employe();
+		emp.setId(101);
+		emp.setName("Tarique");
+		emp.setEmail("tarique@gmail.com");
+		return emp;
+	}
+
+}

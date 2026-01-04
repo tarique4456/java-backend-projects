@@ -1,0 +1,192 @@
+package com.tcs.springboot_crud_with_mysql_database.controller;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tcs.springboot_crud_with_mysql_database.dao.ProductDao;
+import com.tcs.springboot_crud_with_mysql_database.dto.ProductDTO;
+import com.tcs.springboot_crud_with_mysql_database.entity.Product;
+import com.tcs.springboot_crud_with_mysql_database.mapper.ObjectMapper;
+
+@RestController
+@RequestMapping("/product")
+public class ProductController {
+
+	@Autowired
+	private ProductDao productDao;
+
+	@RequestMapping("/getHome")
+	private String Home() {
+		return "Welcome to Product Management System";
+	}
+
+	@RequestMapping(value = "/getDate", method = RequestMethod.GET)
+	public String getTodayDate() {
+		return LocalDate.now().toString();
+	}
+
+	@GetMapping("/getSum/{a}/{b}")
+	public int getSumTwoNumber(@PathVariable int a, @PathVariable int b) {
+		return a + b;
+	}
+
+	@PostMapping("/saveProduct")
+	public ResponseEntity<?> saveProduct(@RequestBody @Validated ProductDTO productDto) {
+
+		// DTO -> Entity
+
+		Product product = ObjectMapper.toMapProduct(productDto);
+
+		// Entity -> Database
+
+		Product saveProduct = productDao.saveProductDao(product);
+
+		// Response
+
+		if (saveProduct != null) {
+			return ResponseEntity.ok(saveProduct);
+		} else {
+			return ResponseEntity.status(500).body("Product Not Saved");
+		}
+
+	}
+
+	@GetMapping("/getProductById/{productId}")
+	public ResponseEntity<?> getProductById(@PathVariable int productId) {
+
+		// Database se Product Nikalna
+		Product product = productDao.getProductByIdDao(productId);
+
+		// Agar Product nhi mila
+		if (product == null) {
+			return ResponseEntity.status(404).body("Product Not Found");
+		}
+
+		// Entity -> Dto
+		ProductDTO productDto = ObjectMapper.toMapProductDto(product);
+
+		// User ko response
+		return ResponseEntity.ok(productDto);
+
+	}
+
+	@GetMapping("/getAllProducts")
+	public ResponseEntity<?> getAllProducts() {
+
+		// Database se sare products
+		List<Product> products = productDao.getAllProductDao();
+
+		// Agar koi data nhi mila
+		if (products.isEmpty()) {
+			return ResponseEntity.status(404).body("No Products Found");
+		}
+
+		// Entity -> DTO List
+		List<ProductDTO> productDtos = ObjectMapper.toMapAllProductDto(products);
+
+		// User ko Bhejo
+
+		return ResponseEntity.ok(productDtos);
+	}
+
+	@PostMapping("/saveAllProducts")
+	public ResponseEntity<?> saveAllProduct(@RequestBody @Validated List<ProductDTO> productsDtoList) {
+
+	    if (productsDtoList == null || productsDtoList.isEmpty()) {
+	        return ResponseEntity.badRequest().body("Product List is Empty");
+	    }
+
+	    // DTO → Entity
+	    List<Product> productList = new ArrayList<>();
+
+	    for (ProductDTO dto : productsDtoList) {
+	        Product product = ObjectMapper.toMapProduct(dto);
+	        productList.add(product);
+	    }
+
+	    // Save to database
+	    List<Product> saveProducts = productDao.saveMultipleProductsDao(productList);
+
+	    // Response
+	    return ResponseEntity.ok(saveProducts);
+	}
+	
+	@PutMapping("/updateProduct")
+	public ResponseEntity<?>updateProduct(@RequestBody @Validated ProductDTO productDto){
+		
+		//DTO -> Entity
+		Product product=ObjectMapper.toMapProduct(productDto);
+		
+		//Update in DB
+		Product updatedProduct=productDao.updateProductDao(product);
+		
+		if(updatedProduct==null) {
+			return ResponseEntity.status(404).body("Product not found");
+			
+		}
+		
+		return ResponseEntity.ok(updatedProduct);
+				
+	}
+	
+	@DeleteMapping("/deleteProduct/{productId}")
+	public ResponseEntity<?>deleteProduct(@PathVariable int productId){
+		
+		boolean delete=productDao.deleteProductByIdDao(productId);
+		
+		if(delete) {
+			return ResponseEntity.ok("Product Deleted Successfully");
+		}
+		else {
+			return ResponseEntity.status(404).body("Product Not Found");
+		}
+	}
+	
+	@GetMapping("/getByColor/{color}")
+	public ResponseEntity<?> getProductByColor(@PathVariable String color){
+		
+		//DB se product Nikalo
+		List<Product> products=productDao.getProductByColorDao(color);
+		
+		//Agar Empty
+		if(products.isEmpty()) {
+			return ResponseEntity.status(404).body("No products found with color "+color);
+		}
+		
+		//Entity -> DTO
+		List<ProductDTO>productDto=ObjectMapper.toMapAllProductDto(products);
+		
+		//response
+		return ResponseEntity.ok(productDto);
+	}
+	
+	@GetMapping("/getByName/{name}")
+	public ResponseEntity<?>getProductByName(@PathVariable String name){
+		
+		List<Product>products=productDao.getProductByNameDao(name);
+		
+		if(products.isEmpty()) {
+			return ResponseEntity.status(404).body("No Product Found with name "+name);
+		}
+		List<ProductDTO>productDto=ObjectMapper.toMapAllProductDto(products);
+		
+		return ResponseEntity.ok(productDto);
+	}
+
+}
+	
+

@@ -1,0 +1,40 @@
+package com.tcs.springboot_crud_with_mysql_database.dao;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.tcs.springboot_crud_with_mysql_database.entity.Product;
+import com.tcs.springboot_crud_with_mysql_database.repository.ProductRepository;
+
+@Repository
+public class ProductDao {
+	
+	@Autowired
+	private ProductRepository productRepository;
+	
+	//Insert Product into database
+	public Product saveProductDao(Product product) {
+		return productRepository.saveAndFlush(product);
+	}
+	
+	
+	//Get Product by id
+	public Product getProductByIdDao(int productId) {
+		
+		Optional<Product> optional=productRepository.findById(productId);
+		
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		return null;
+	}
+	
+	// Get all Product
+	public List<Product>getAllProductDao(){
+		return productRepository.findAll();
+	}
+	
+
+}

@@ -1,0 +1,25 @@
+package com.tcs.springboot_crud_with_mysql_database.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.tcs.springboot_crud_with_mysql_database.entity.Product;
+
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+	
+	//Search Products by color
+	List<Product> findByColor(String color);
+	
+	//Search Products by name
+	List<Product>findByName(String name);
+	
+	//sort products by price
+	List<Product>findAllByOrderByPriceAsc();
+	
+	List<Product>findAllByOrderByMfdAsc();
+	
+	
+	
+
+}

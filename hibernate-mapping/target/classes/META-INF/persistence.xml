@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence 
+             https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+
+  <persistence-unit name="jpa"> 
+  <class>com.tcs.hibernate_mapping.entity.Adhar</class>
+  <class>com.tcs.hibernate_mapping.entity.Person</class>
+  <class>com.tcs.hibernate_mapping_One_To_One_Bidirectional.entity.Adhar1</class>
+  <class>com.tcs.hibernate_mapping_One_To_One_Bidirectional.entity.Person1</class>
+  <class>com.tcs.hibernate_mapping.one_to_many.entity.Country</class>
+  <class>com.tcs.hibernate_mapping.one_to_many.entity.State</class>
+  <class>com.tcs.hibernate_mapping.one_to_many_Bidirectional.entity.Country1</class>
+  <class>com.tcs.hibernate_mapping.one_to_many_Bidirectional.entity.States1</class>
+    <properties>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+      <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/hibernate-mapping" />
+      <property name="jakarta.persistence.jdbc.user"   value="root" />
+      <property name="jakarta.persistence.jdbc.password" value="root" />
+      <property name="jakarta.persistence.schema-generation.database.action" value="update" />
+      <property name="hibernate.dialect"    value="org.hibernate.dialect.MySQLDialect" />
+      <property name="hibernate.show_sql"   value="true" />
+      <property name="hibernate.format_sql" value="true" />
+    </properties>
+  </persistence-unit>
+</persistence>

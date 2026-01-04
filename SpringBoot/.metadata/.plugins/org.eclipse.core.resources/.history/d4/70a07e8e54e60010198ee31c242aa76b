@@ -1,0 +1,5 @@
+spring.application.name=springboot-crud-with-mysql-databse
+server.port=8080
+
+# Database Connection
+

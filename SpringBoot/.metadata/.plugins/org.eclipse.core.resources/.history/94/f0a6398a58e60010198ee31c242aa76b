@@ -1,0 +1,14 @@
+package com.tcs.springboot_crud_with_mysql_database.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class home {
+	
+	@GetMapping(name="/")
+	public String home() {
+		return "helloworld";
+	}
+
+}

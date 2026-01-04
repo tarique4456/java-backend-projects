@@ -1,0 +1,19 @@
+package com.tcs.springboot_crud_with_mysql_database.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.tcs.springboot_crud_with_mysql_database.entity.Product;
+import com.tcs.springboot_crud_with_mysql_database.repository.ProductRepository;
+
+@Repository
+public class ProductDao {
+	
+	@Autowired
+	private ProductRepository productRepository;
+	
+	public Product saveProductDao(Product product) {
+		return ProductRepository.saveAndFlush(product);
+	}
+
+}

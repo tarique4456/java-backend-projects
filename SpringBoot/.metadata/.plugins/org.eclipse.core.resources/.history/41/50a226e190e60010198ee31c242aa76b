@@ -1,0 +1,25 @@
+package com.tcs.springboot_crud_with_mysql_database.mapper;
+
+import com.tcs.springboot_crud_with_mysql_database.dto.ProductDTO;
+import com.tcs.springboot_crud_with_mysql_database.entity.Product;
+
+public class ObjectMapper {
+	
+	// DTO -> Entity(for Insert and update )
+	
+	public static Product toMapProduct(ProductDTO productDto) {
+		
+		Product product=new Product();
+		
+		//DTO se Data Uthake Entity me dal rahe hai
+		//product.setId(productDto.getId());
+		product.setName(productDto.getName());
+		product.setColor(productDto.getColor());
+		product.setPrice(productDto.getPrice());
+		product.setMfd(productDto.getMfd());
+		product.setExpd(productDto.getExpd());
+		
+		return product;
+	}
+
+}

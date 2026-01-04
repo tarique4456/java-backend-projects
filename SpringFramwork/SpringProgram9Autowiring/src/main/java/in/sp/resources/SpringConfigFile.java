@@ -1,0 +1,51 @@
+package in.sp.resources;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import in.sp.beans.Address;
+import in.sp.beans.Student;
+
+@Configuration
+public class SpringConfigFile {
+
+	@Bean
+	public Address createAddrObj1() {
+
+		Address addr = new Address();
+		
+		addr.setHouseno(283);
+		addr.setCity("Noida");
+		addr.setPincode(201301);
+
+		return addr;
+	}
+	
+	@Bean
+	public Address createAddrObj2() {
+
+		Address addr = new Address();
+		
+		addr.setHouseno(7845);
+		addr.setCity("Ranchi");
+		addr.setPincode(835205);
+
+		return addr;
+	}
+
+	@Bean
+	public Student createStdObj() {
+
+		Student std = new Student();
+		
+		std.setRollno(5544);
+		std.setName("Shahrukh Khan");
+		//std.setAddress(createAddrObj()); //manually DI
+		
+
+		return std;
+	}
+	
+
+
+}

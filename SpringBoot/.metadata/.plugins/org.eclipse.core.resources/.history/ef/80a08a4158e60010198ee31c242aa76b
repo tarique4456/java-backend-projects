@@ -1,0 +1,9 @@
+package com.tcs.springboot_crud_with_mysql_database.controller;
+
+public class home {
+	
+	public String home() {
+		return "helloworld";
+	}
+
+}

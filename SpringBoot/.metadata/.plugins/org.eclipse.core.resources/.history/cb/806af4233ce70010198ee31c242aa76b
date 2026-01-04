@@ -1,0 +1,95 @@
+package com.tcs.springboot_crud_with_mysql_database.controller;
+
+import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tcs.springboot_crud_with_mysql_database.dao.ProductDao;
+import com.tcs.springboot_crud_with_mysql_database.dto.ProductDTO;
+import com.tcs.springboot_crud_with_mysql_database.entity.Product;
+import com.tcs.springboot_crud_with_mysql_database.mapper.ObjectMapper;
+
+@RestController
+@RequestMapping("/product")
+public class ProductController {
+	
+	@Autowired
+	private ProductDao productDao;
+	
+	@RequestMapping("/getHome")
+	private String Home() {
+		return "Welcome to Product Management System";
+	}
+	
+	@RequestMapping(value="/getDate" ,method=RequestMethod.GET)
+	public String getTodayDate() {
+		return LocalDate.now().toString();
+	}
+	
+	@GetMapping("/getSum/{a}/{b}")
+	public int getSumTwoNumber(@PathVariable int a,@PathVariable int b) {
+		return a+b;
+	}
+	
+	@PostMapping("/saveProduct")
+	public ResponseEntity<?>saveProduct(@RequestBody @Validated ProductDTO productDto) {
+		
+		// DTO -> Entity
+		
+		Product product=ObjectMapper.toMapProduct(productDto);
+		
+		//Entity -> Database
+		
+		Product saveProduct=productDao.saveProductDao(product);
+		
+		// Response
+		
+		if(saveProduct !=null) {
+			return ResponseEntity.ok(saveProduct);
+		}
+		else {
+			return ResponseEntity.status(500).body("Product Not Saved");
+		}
+		
+	}
+	
+	public ResponseEntity<?> getProductById(@PathVariable int productId){
+		
+		// Database se Product Nikalna
+		Product product=productDao.getProductByIdDao(productId);
+		
+		// Agar Product nhi mila
+		if(product==null) {
+			return ResponseEntity.status(404).body("Product Not Found");
+		}
+		
+		//Entity -> Dto
+		ProductDTO productDto=ObjectMapper.toMapProductDto(Product);
+		
+		// User ko response
+		return ResponseEntity.ok(productDto);
+		
+	}
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+

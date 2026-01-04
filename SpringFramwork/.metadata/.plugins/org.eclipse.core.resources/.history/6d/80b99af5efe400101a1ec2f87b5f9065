@@ -1,0 +1,21 @@
+package in.sp.resources;
+
+import org.springframework.context.annotation.Configuration;
+
+import in.sp.beans.Address;
+
+@Configuration
+public class SpringConfigFile {
+	
+	public Address createAddrObj() {
+		
+		Address addr=new Address();
+		
+		addr.setHouseno(5001);
+		addr.setCity("Ranchi");
+		addr.setPincode(835205);
+		return addr;
+	}
+	
+
+}

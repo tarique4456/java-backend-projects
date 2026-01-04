@@ -1,0 +1,18 @@
+package com.tcs.springboot_crud_with_mysql_database;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringbootCrudWithMysqlDatabseApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringbootCrudWithMysqlDatabseApplication.class, args);
+		
+	}
+	
+	public static void check() {
+		System.out.println("hello");
+	}
+
+}
